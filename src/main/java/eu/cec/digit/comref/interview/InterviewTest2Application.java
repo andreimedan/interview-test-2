@@ -1,5 +1,6 @@
 package eu.cec.digit.comref.interview;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,13 +61,13 @@ public class InterviewTest2Application implements CommandLineRunner {
 
 	public Town getTown(String name) {
 
-		return townRepository.findById(Integer.getInteger(name)).orElse(null);
+		return townRepository.findById(name).orElse(null);
 
 	}
 
 	public void deleteTown(String name) {
 
-		townRepository.deleteById(Integer.getInteger(name));
+		townRepository.deleteById(name);
 
 	}
 
@@ -110,13 +111,14 @@ public class InterviewTest2Application implements CommandLineRunner {
 	}
 
 	public List<InternetServiceProvider> getInternetServiceProviders() {
-
-		return internetServiceProviderRepository.findAll();
+		List<InternetServiceProvider> list = internetServiceProviderRepository.findAll();
+		Collections.sort(list);
+		return list;
 	}
 
 	public List<InternetServiceProvider> getAvailableInternetServiceProviders() {
 		
-		return internetServiceProviderRepository.findAll();
+		return internetServiceProviderRepository.findByAvailable(true);
 	}
 
 }

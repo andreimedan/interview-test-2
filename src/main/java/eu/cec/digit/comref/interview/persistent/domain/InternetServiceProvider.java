@@ -2,10 +2,8 @@ package eu.cec.digit.comref.interview.persistent.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,8 +12,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "ISP")
-public class InternetServiceProvider implements Serializable {
-
+public class InternetServiceProvider implements Serializable, Comparable<InternetServiceProvider> {
 
 	private static final long serialVersionUID = -4292369331387884243L;
 
@@ -29,4 +26,14 @@ public class InternetServiceProvider implements Serializable {
 	@Column(name = "AVAILABLE")
 	private Boolean available;
 
+	@OneToMany(fetch=FetchType.LAZY,
+			   cascade = CascadeType.ALL,
+	           mappedBy = "internetServiceProvider")
+	private List<Town> townList;
+
+
+	@Override
+	public int compareTo(InternetServiceProvider o) {
+		return this.getName().compareTo(o.getName());
+	}
 }
